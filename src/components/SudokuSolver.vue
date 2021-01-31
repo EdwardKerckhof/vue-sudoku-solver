@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <form id="sudokuBoardForm" @submit.prevent="solve">
-      <button type="submit">Solve</button>
+      <button type="submit">{{ buttonText }}</button>
       <button @click.prevent="resetBoard">Reset</button>
 
       <div id="sudokuBoard">
@@ -31,6 +31,7 @@ export default defineComponent({
 
   setup() {
     const inputs = ref<number[]>([])
+    const buttonText = ref('Solve')
 
     const rowsValid = (board: (number | null)[][]) => {
       // checks if any of the rows contain a 0
@@ -122,6 +123,7 @@ export default defineComponent({
 
     const solveBoard = (board: (number | null)[][]) => {
       let find = findFirstEmptySquare(board)
+
       if (!find) return true
       else {
         const y = find[0]
@@ -157,6 +159,8 @@ export default defineComponent({
     }
 
     const solve = () => {
+      buttonText.value = 'Solving...'
+
       let userBoard: Array<number[]> = [[]]
       let j = 0
       for (let i = 1; i <= 81; i++) {
@@ -175,15 +179,19 @@ export default defineComponent({
 
       if (solveBoard(userBoard)) {
         updateBoard(userBoard, true)
+        buttonText.value = 'Solved!'
         console.log('Solution:')
         printBoardToConsole(userBoard)
-      } else console.log('No solution possible!')
+      } else {
+        buttonText.value = 'Impossible to solve!'
+      }
     }
 
     const resetBoard = () => {
       inputs.value.forEach((input) => {
         ;((input as unknown) as HTMLInputElement).value = ''
       })
+      buttonText.value = 'Solve'
     }
 
     const printBoardToConsole = (board: (number | null)[][]) => {
@@ -194,14 +202,14 @@ export default defineComponent({
       console.log(boardHash)
     }
 
-    return { solve, inputs, resetBoard }
+    return { solve, inputs, resetBoard, buttonText }
   },
 })
 </script>
 
 <style lang="scss">
-$red: red;
-$green: green;
+$red: #dc3545;
+$green: #28a745;
 
 .container {
   display: flex;
