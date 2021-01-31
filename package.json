@@ -1,19 +1,49 @@
 {
-  "name": "SudokuSolver",
-  "version": "0.0.0",
+  "name": "sudoku-solver",
+  "version": "0.0.2",
+  "description": "Javascript (TypeScript) sudoku solver in a nice vue frontend.",
   "scripts": {
     "dev": "vite",
-    "build": "vuedx-typecheck . && vite build",
-    "serve": "vite preview"
+    "build": "vite build && cp .htaccess dist/.htaccess",
+    "serve": "vite preview",
+    "lint": "eslint --ext .ts,vue --ignore-path .gitignore ."
   },
+  "keywords": [
+    "vue",
+    "sodku",
+    "html",
+    "solver",
+    "backtracking",
+    "algorithm"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EdwardKerckhofZoneDev/vue-sodoku-solver.git"
+  },
+  "bugs": {
+    "url": "https://github.com/EdwardKerckhofZoneDev/vue-sodoku-solver/issues"
+  },
+  "homepage": "https://github.com/EdwardKerckhofZoneDev/vue-sodoku-solver#readme",
+  "private": false,
+  "license": "MIT",
   "dependencies": {
     "vue": "^3.0.5"
   },
   "devDependencies": {
+    "@types/node": "^14.14.22",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
     "@vitejs/plugin-vue": "^1.1.2",
     "@vue/compiler-sfc": "^3.0.5",
+    "@vue/eslint-config-typescript": "^7.0.0",
     "@vuedx/typecheck": "^0.6.0",
     "@vuedx/typescript-plugin-vue": "^0.6.0",
+    "eslint": "^7.19.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-vue": "^7.5.0",
+    "postcss-preset-env": "^6.7.0",
+    "prettier": "^2.2.1",
+    "sass": "^1.32.5",
     "typescript": "^4.1.3",
     "vite": "^2.0.0-beta.50"
   }
