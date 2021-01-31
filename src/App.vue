@@ -3,10 +3,12 @@
   <p>Using the backtracking algorithm</p>
   <hr />
   <sudoku-solver />
+  <app-footer />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import AppFooter from './components/Footer.vue'
 import SudokuSolver from './components/SudokuSolver.vue'
 
 export default defineComponent({
@@ -14,13 +16,19 @@ export default defineComponent({
 
   components: {
     SudokuSolver,
+    AppFooter,
   },
 })
 </script>
 
 <style lang="scss">
+body {
+  min-height: 100vh;
+}
+
 #app {
-  height: 100%;
+  height: calc(100vh);
+  position: relative;
 }
 
 * {
@@ -37,7 +45,7 @@ export default defineComponent({
   line-height: 1.4;
   letter-spacing: 0.5px;
   color: #2c3e50;
-  margin-top: 60px;
+  padding-top: 60px;
 
   h1 {
     margin-bottom: 10px;

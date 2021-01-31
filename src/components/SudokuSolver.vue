@@ -8,12 +8,12 @@
         <input
           v-for="i in 81"
           :key="i"
-          type="number"
           :ref="
             (el) => {
               inputs[i] = el
             }
           "
+          type="number"
           maxlength="1"
           max="9"
           min="1"
@@ -145,7 +145,7 @@ export default defineComponent({
       }
     }
 
-    const updateBoard = (board: number[][], valid: boolean) => {
+    const updateBoard = (board: number[][]) => {
       let userInputs: Array<string> = []
       for (let i = 1; i <= board.length; i++) {
         for (let j = 0; j < board[0].length; j++) {
@@ -178,7 +178,7 @@ export default defineComponent({
       console.log(userBoard)
 
       if (solveBoard(userBoard)) {
-        updateBoard(userBoard, true)
+        updateBoard(userBoard)
         buttonText.value = 'Solved!'
         console.log('Solution:')
         printBoardToConsole(userBoard)
@@ -196,7 +196,7 @@ export default defineComponent({
 
     const printBoardToConsole = (board: (number | null)[][]) => {
       let boardHash = ''
-      board.forEach((row: any, i: number) => {
+      board.forEach((row: any) => {
         boardHash += row.toString().replace(/,/g, ' ') + '\n'
       })
       console.log(boardHash)
@@ -207,7 +207,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $red: #dc3545;
 $green: #28a745;
 
