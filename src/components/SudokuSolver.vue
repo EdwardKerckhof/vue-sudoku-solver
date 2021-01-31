@@ -223,6 +223,47 @@ $green: #28a745;
       height: 40px;
       text-align: center;
       font-size: 16px;
+      border: 1px solid black;
+      border-radius: 5px;
+
+      &:nth-child(4),
+      &:nth-child(5),
+      &:nth-child(6),
+      &:nth-child(13),
+      &:nth-child(14),
+      &:nth-child(15),
+      &:nth-child(22),
+      &:nth-child(23),
+      &:nth-child(24),
+      &:nth-child(28),
+      &:nth-child(29),
+      &:nth-child(30),
+      &:nth-child(34),
+      &:nth-child(35),
+      &:nth-child(36),
+      &:nth-child(37),
+      &:nth-child(38),
+      &:nth-child(39),
+      &:nth-child(43),
+      &:nth-child(44),
+      &:nth-child(45),
+      &:nth-child(46),
+      &:nth-child(47),
+      &:nth-child(48),
+      &:nth-child(52),
+      &:nth-child(53),
+      &:nth-child(54),
+      &:nth-child(58),
+      &:nth-child(59),
+      &:nth-child(60),
+      &:nth-child(67),
+      &:nth-child(68),
+      &:nth-child(69),
+      &:nth-child(76),
+      &:nth-child(77),
+      &:nth-child(78) {
+        background: rgba($color: #000000, $alpha: 0.2);
+      }
     }
     /* Chrome, Safari, Edge, Opera */
     input::-webkit-outer-spin-button,

@@ -2,6 +2,13 @@
   <h1>Sudoku Solver</h1>
   <p>Using the backtracking algorithm</p>
   <hr />
+  <div class="instructions">
+    <p>Instructions:</p>
+    <ol>
+      <li>Input the sudoku numbers in the appropriate boxes</li>
+      <li>Click solve!</li>
+    </ol>
+  </div>
   <sudoku-solver />
   <app-footer />
 </template>
@@ -57,7 +64,14 @@ body {
 
   hr {
     width: 30%;
-    margin: 50px auto;
+    margin: 50px auto 20px auto;
+  }
+
+  div.instructions {
+    text-align: left;
+    width: 28%;
+    margin: 0 auto;
+    margin-bottom: 30px;
   }
 }
 </style>
