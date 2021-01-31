@@ -1,47 +1,36 @@
-<template></template>
+<template>
+  <div class="container">
+    <form id="sudokuBoardForm" @submit.prevent="solve">
+      <button type="submit">Solve</button>
+      <button @click.prevent="resetBoard">Reset</button>
+
+      <div id="sudokuBoard">
+        <input
+          v-for="i in 81"
+          :key="i"
+          type="number"
+          :ref="
+            (el) => {
+              inputs[i] = el
+            }
+          "
+          maxlength="1"
+          max="9"
+          min="1"
+        />
+      </div>
+    </form>
+  </div>
+</template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   name: 'SudokuSolver',
 
   setup() {
-    const board1 = [
-      [null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null],
-    ]
-
-    const boardInvalid = [
-      [7, 8, null, 4, null, null, 1, 2, 0],
-      [6, null, null, null, 7, 5, null, null, 9],
-      [null, null, null, 6, null, 1, null, 7, 8],
-      [null, null, 7, null, 4, null, 2, 6, 0],
-      [null, null, 1, null, 5, null, 9, 3, 0],
-      [9, null, 4, null, 6, null, null, null, 5],
-      [null, 7, null, 3, null, null, null, 1, 2],
-      [1, 2, null, null, null, 7, 4, null, 0],
-      [null, 4, 9, 2, null, 6, null, null, 7],
-    ]
-
-    const wordlsHardestSudoku = [
-      [8, null, null, null, null, null, null, null, null],
-      [null, null, 3, 6, null, null, null, null, null],
-      [null, 7, null, null, 9, null, 2, null, null],
-      [null, 5, null, null, null, 7, null, null, null],
-      [null, null, null, null, 4, 5, 7, null, null],
-      [null, null, null, 1, null, null, null, 3, null],
-      [null, null, 1, null, null, null, null, 6, 8],
-      [null, null, 8, 5, null, null, null, 1, null],
-      [null, 9, null, null, null, null, 4, null, null],
-    ]
+    const inputs = ref<number[]>([])
 
     const rowsValid = (board: (number | null)[][]) => {
       // checks if any of the rows contain a 0
@@ -154,6 +143,49 @@ export default defineComponent({
       }
     }
 
+    const updateBoard = (board: number[][], valid: boolean) => {
+      let userInputs: Array<string> = []
+      for (let i = 1; i <= board.length; i++) {
+        for (let j = 0; j < board[0].length; j++) {
+          userInputs.push(String(board[i - 1][j]))
+        }
+      }
+
+      inputs.value.forEach((input, i) => {
+        ;((input as unknown) as HTMLInputElement).value = userInputs[i - 1]
+      })
+    }
+
+    const solve = () => {
+      let userBoard: Array<number[]> = [[]]
+      let j = 0
+      for (let i = 1; i <= 81; i++) {
+        const input = ((inputs.value[i] as unknown) as HTMLInputElement).value
+
+        if (((input as unknown) as string) === '')
+          userBoard[j].push((null as unknown) as number)
+        else userBoard[j].push(Number(input))
+
+        if (i % 9 === 0 && i < 81) {
+          userBoard.push([])
+          j++
+        }
+      }
+      console.log(userBoard)
+
+      if (solveBoard(userBoard)) {
+        updateBoard(userBoard, true)
+        console.log('Solution:')
+        printBoardToConsole(userBoard)
+      } else console.log('No solution possible!')
+    }
+
+    const resetBoard = () => {
+      inputs.value.forEach((input) => {
+        ;((input as unknown) as HTMLInputElement).value = ''
+      })
+    }
+
     const printBoardToConsole = (board: (number | null)[][]) => {
       let boardHash = ''
       board.forEach((row: any, i: number) => {
@@ -162,30 +194,66 @@ export default defineComponent({
       console.log(boardHash)
     }
 
-    onMounted(() => {
-      // console.log('Invalid Sudoku:')
-      // printBoardToConsole(boardInvalid)
-      // if (solveBoard(boardInvalid)) {
-      //   console.log('Solution:')
-      //   printBoardToConsole(boardInvalid)
-      // } else console.log('No solution possible!')
-      // console.log('Empty Sudoku:')
-      // printBoardToConsole(board1)
-      // if (solveBoard(board1)) {
-      //   console.log('Solution:')
-      //   printBoardToConsole(board1)
-      // } else console.log('No solution possible!')
-      // console.log('Worlds hardest Sudoku:')
-      // printBoardToConsole(wordlsHardestSudoku)
-      // if (solveBoard(wordlsHardestSudoku)) {
-      //   console.log('Solution:')
-      //   printBoardToConsole(wordlsHardestSudoku)
-      // } else console.log('No solution possible!')
-    })
-
-    return { board1 }
+    return { solve, inputs, resetBoard }
   },
 })
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+$red: red;
+$green: green;
+
+.container {
+  display: flex;
+  justify-content: center;
+
+  #sudokuBoard {
+    display: grid;
+    grid-template-columns: repeat(9, 40px);
+
+    input {
+      height: 40px;
+      text-align: center;
+      font-size: 16px;
+    }
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    input[type='number'] {
+      -moz-appearance: textfield;
+    }
+  }
+
+  button {
+    cursor: pointer;
+    margin: 0 10px 20px 10px;
+    background: none;
+    border: 2px solid $red;
+    color: $red;
+    padding: 8px 15px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    outline: none;
+
+    &:hover {
+      background: $red;
+      color: white;
+    }
+  }
+
+  button[type='submit'] {
+    border-color: $green;
+    color: $green;
+
+    &:hover {
+      background: $green;
+      color: white;
+    }
+  }
+}
+</style>
